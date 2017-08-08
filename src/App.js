@@ -104,11 +104,11 @@ class App extends Component {
   }
 
   incrementRayLength () {
-    this.setState({rayLengthScale: Math.max(1, this.state.rayLengthScale - 0.5) })
+    this.setState({rayLengthScale: Math.max(1, this.state.rayLengthScale - 0.25) })
   }
 
   decrementRayLength () {
-    this.setState({rayLengthScale: Math.min(20, this.state.rayLengthScale + 0.5) })
+    this.setState({rayLengthScale: Math.min(20, this.state.rayLengthScale + 0.25) })
   }
 
   incrementRays () {
@@ -151,11 +151,11 @@ class App extends Component {
     let i = this.between(2, 4)
     
     while (i > -360) {
-      degs.push({deg: i, length: this.between(actualWidth/(6*this.state.rayLengthScale),
+      degs.push({deg: i, length: this.between(Math.random() > 0.6 ? actualWidth/(6*this.state.rayLengthScale): actualWidth/(15*this.state.rayLengthScale),
         (i >= -this.state.degreeSpacing && i <= 0) ||
         (i >= -360 && i <= -340) ||
         (i <= -160 && i >= -200) ? actualWidth/(2.2 * this.state.rayLengthScale) : actualHeight/(2.2 * this.state.rayLengthScale) )})
-      i -= this.between(1, this.state.degreeSpacing)
+      i -= this.between(1, this.state.degreeSpacing * 1.5)
     }
 
     return degs
@@ -172,7 +172,7 @@ class App extends Component {
       degs.push({
         deg: i, length:
                     this.between(
-                      Math.max(1, actualHeight/(3*this.state.rayLengthScale)),
+                      Math.random() > 0.5 ? actualHeight/(3*this.state.rayLengthScale) : actualHeight/(6*this.state.rayLengthScale),
                       Math.random() > 0.5 ? Math.max(1, actualWidth/(1.5*this.state.rayLengthScale)) : actualHeight/(2*this.state.rayLengthScale)
                     )
       })
@@ -203,7 +203,7 @@ class App extends Component {
       degs.push({
         deg: i,
         length: this.between(
-                  actualHeight/(3*this.state.rayLengthScale),
+                  Math.random() > 0.5 ? actualHeight/(3*this.state.rayLengthScale) : actualHeight/(8*this.state.rayLengthScale),
                   actualHeight/(1.5*this.state.rayLengthScale)
                 )
       })
