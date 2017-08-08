@@ -9,12 +9,14 @@ import tinycolor from 'tinycolor2'
 class App extends Component {
   constructor(props) {
     super(props)
+
+    const seeded = Math.random() > 0.5
     this.state = {
       displayColorPickers: true,
-      backgroundColor: "rgb(255,197,0)",
-      centerLineColor: "white",
-      cornerLineColor: 'rgb(42, 115, 65)',
-      edgeLineColor: 'rgb(250, 40, 0)',
+      backgroundColor: seeded ? "#F8F8F8": "rgb(255,197,0)",
+      centerLineColor: seeded ? "#F8E71C" : "#f5f5f5",
+      cornerLineColor: seeded ? "#4A90E2" : 'rgb(42, 115, 65)',
+      edgeLineColor: seeded ? "#FA2800" : 'rgb(250, 40, 0)',
       padding: 50,
       degreeSpacing: 20,
       rayLengthScale: 1,
@@ -37,6 +39,13 @@ class App extends Component {
     //const dim = Math.min(width, height)
     const settings = { width: width, height: height }
 
+    if (width < 500) {
+      settings.height = width
+      settings.padding = 0
+    } else {
+      settings.padding = 50
+    }
+
     this.setState(settings)
   }
 
@@ -57,10 +66,10 @@ class App extends Component {
     
      mc.on("swipedown", ev => this.incrementRays())
       .on("swipeup", ev => this.decrementRays())
-      .on("swipeleft", ev => this.incrementColumns())
-      .on("swiperight", ev => this.decrementColumns())
-      .on("pinchin", ev => { this.incrementColumns(); this.incrementRays();} )
-      .on("pinchout", ev => { this.decrementColumns(); this.decrementRays();})
+      .on("swipeleft", ev => this.incrementRayLength())
+      .on("swiperight", ev => this.decrementRayLength())
+      .on("pinchin", ev => { this.incrementRayLength(); this.incrementRays();} )
+      .on("pinchout", ev => { this.decrementRayLength(); this.decrementRays();})
   }
 
   handleKeydown (ev) {
