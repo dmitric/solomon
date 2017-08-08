@@ -150,7 +150,7 @@ class App extends Component {
     const degs = []
     let i = this.between(2, 4)
     
-    while (i > -360 + 2) {
+    while (i > -360) {
       degs.push({deg: i, length: this.between(actualWidth/(6*this.state.rayLengthScale),
         (i >= -this.state.degreeSpacing && i <= 0) ||
         (i >= -360 && i <= -340) ||
@@ -166,9 +166,9 @@ class App extends Component {
     const actualWidth = this.getActualWidth()
     
     const degs = []
-    let i = this.between(2, 4)
+    let i = -this.between(2, 4)
     
-    while (i > -90 + 2) {
+    while (i > -90) {
       degs.push({
         deg: i, length:
                     this.between(
@@ -197,9 +197,9 @@ class App extends Component {
     //const actualWidth = this.getActualWidth()
     
     const degs = []
-    let i = this.between(2, 4)
+    let i = -this.between(2, 4)
     
-    while (i > -180 + 2) {
+    while (i > -180) {
       degs.push({
         deg: i,
         length: this.between(
