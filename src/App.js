@@ -20,6 +20,7 @@ class App extends Component {
       padding: 50,
       degreeSpacing: 20,
       rayLengthScale: 1,
+      running: false,
     }
   }
 
@@ -52,11 +53,13 @@ class App extends Component {
   componentWillUnmount () {
     window.removeEventListener("resize", this.updateDimensions.bind(this), true)
     window.removeEventListener('keydown', this.handleKeydown.bind(this), true)
+    window.clearInterval(this.interval)
   }
 
   componentDidMount () {
     window.addEventListener("resize", this.updateDimensions.bind(this), true)
     window.addEventListener('keydown', this.handleKeydown.bind(this), true)
+    this.interval = window.setInterval(this.tick.bind(this), 400)
 
     const mc = new Hammer(document, { preventDefault: true })
 
@@ -82,6 +85,9 @@ class App extends Component {
     } else if (ev.which === 82 && !(ev.metaKey || ev.ctrlKey)) {
       ev.preventDefault()
       this.forceUpdate()
+    } else if (ev.which === 84) {
+      ev.preventDefault()
+      this.toggleRun()
     } else if (ev.which === 40) {
       ev.preventDefault()
       this.decrementRays()
@@ -142,9 +148,9 @@ class App extends Component {
     const actualWidth = this.getActualWidth()
 
     const degs = []
-    let i = 0
+    let i = this.between(2, 4)
     
-    while (i > -360) {
+    while (i > -360 + 2) {
       degs.push({deg: i, length: this.between(actualWidth/(6*this.state.rayLengthScale),
         (i >= -this.state.degreeSpacing && i <= 0) ||
         (i >= -360 && i <= -340) ||
@@ -160,9 +166,9 @@ class App extends Component {
     const actualWidth = this.getActualWidth()
     
     const degs = []
-    let i = 0
+    let i = this.between(2, 4)
     
-    while (i > -90) {
+    while (i > -90 + 2) {
       degs.push({
         deg: i, length:
                     this.between(
@@ -176,14 +182,24 @@ class App extends Component {
     return degs
   }
 
+  toggleRun() {
+    this.setState({running: !this.state.running})
+  }
+
+  tick () {
+    if (this.state.running) {
+      this.forceUpdate()
+    }
+  }
+
   getEdgeDegrees () {
     const actualHeight = this.getActualHeight()
     //const actualWidth = this.getActualWidth()
     
     const degs = []
-    let i = 0
+    let i = this.between(2, 4)
     
-    while (i > -180) {
+    while (i > -180 + 2) {
       degs.push({
         deg: i,
         length: this.between(
