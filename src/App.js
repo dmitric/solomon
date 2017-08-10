@@ -20,6 +20,7 @@ class App extends Component {
       padding: 50,
       degreeSpacing: 20,
       rayLengthScale: 1,
+      strokeWidth: 1,
       running: false,
     }
   }
@@ -88,9 +89,15 @@ class App extends Component {
     } else if (ev.which === 84) {
       ev.preventDefault()
       this.toggleRun()
+    } else if (ev.which === 40 && (ev.metaKey || ev.ctrlKey)) {
+      ev.preventDefault()
+      this.decrementStrokeWidth()
     } else if (ev.which === 40) {
       ev.preventDefault()
       this.decrementRays()
+    } else if (ev.which === 38 && (ev.metaKey || ev.ctrlKey)) {
+      ev.preventDefault()
+      this.incrementStrokeWidth()
     } else if (ev.which === 38) {
       ev.preventDefault()
       this.incrementRays()
@@ -101,6 +108,14 @@ class App extends Component {
       ev.preventDefault()
       this.incrementRayLength()
     }
+  }
+
+  incrementStrokeWidth () {
+    this.setState({strokeWidth: Math.min(5, this.state.strokeWidth + 1)})
+  }
+
+  decrementStrokeWidth () {
+    this.setState({strokeWidth: Math.max(1, this.state.strokeWidth - 1)})
   }
 
   incrementRayLength () {
@@ -244,7 +259,7 @@ class App extends Component {
                     x2={actualWidth/2 + centerDeg.length}
                     y2={actualHeight/2}
                     transform={`rotate(${centerDeg.deg}, ${actualWidth/2}, ${actualHeight/2})`}
-                    strokeWidth={1} stroke={this.state.centerLineColor} />
+                    strokeWidth={this.state.strokeWidth} stroke={this.state.centerLineColor} />
               })
             }
               
@@ -259,7 +274,7 @@ class App extends Component {
                           x2={0}
                           y2={centerDeg.length}
                           transform={`rotate(${centerDeg.deg}, ${0}, ${0})`}
-                          strokeWidth={1} stroke={this.state.cornerLineColor} />
+                          strokeWidth={this.state.strokeWidth} stroke={this.state.cornerLineColor} />
                   })
                 }
               </g>
@@ -273,7 +288,7 @@ class App extends Component {
                           x2={centerDeg.length}
                           y2={actualHeight}
                           transform={`rotate(${centerDeg.deg}, ${0}, ${actualHeight})`}
-                          strokeWidth={1} stroke={this.state.cornerLineColor} />
+                          strokeWidth={this.state.strokeWidth} stroke={this.state.cornerLineColor} />
                   })
                 }
               </g>
@@ -287,7 +302,7 @@ class App extends Component {
                           x2={actualWidth - centerDeg.length}
                           y2={0}
                           transform={`rotate(${centerDeg.deg}, ${actualWidth}, ${0})`}
-                          strokeWidth={1} stroke={this.state.cornerLineColor} />
+                          strokeWidth={this.state.strokeWidth} stroke={this.state.cornerLineColor} />
                   })
                 }
               </g>
@@ -301,7 +316,7 @@ class App extends Component {
                           x2={actualWidth}
                           y2={actualHeight - centerDeg.length}
                           transform={`rotate(${centerDeg.deg}, ${actualWidth}, ${actualHeight})`}
-                          strokeWidth={1} stroke={this.state.cornerLineColor} />
+                          strokeWidth={this.state.strokeWidth} stroke={this.state.cornerLineColor} />
                   })
                 }
               </g>
@@ -317,7 +332,7 @@ class App extends Component {
                               x2={actualWidth/2 - deg.length}
                               y2={0} 
                               transform={`rotate(${deg.deg}, ${actualWidth/2}, ${0})`} 
-                              strokeWidth={1}
+                              strokeWidth={this.state.strokeWidth}
                               stroke={this.state.edgeLineColor}/>
                   })
                 }
@@ -331,7 +346,7 @@ class App extends Component {
                               x2={actualWidth/2 + deg.length}
                               y2={actualHeight} 
                               transform={`rotate(${deg.deg}, ${actualWidth/2}, ${actualHeight})`} 
-                              strokeWidth={1}
+                              strokeWidth={this.state.strokeWidth}
                               stroke={this.state.edgeLineColor}/>
                   })
                 }
@@ -346,7 +361,7 @@ class App extends Component {
                               x2={0}
                               y2={actualHeight/2 + deg.length} 
                               transform={`rotate(${deg.deg}, ${0}, ${actualHeight/2})`} 
-                              strokeWidth={1}
+                              strokeWidth={this.state.strokeWidth}
                               stroke={this.state.edgeLineColor}/>
                   })
                 }
@@ -360,7 +375,7 @@ class App extends Component {
                               x2={actualWidth}
                               y2={actualHeight/2 - deg.length} 
                               transform={`rotate(${deg.deg}, ${actualWidth}, ${actualHeight/2})`} 
-                              strokeWidth={1}
+                              strokeWidth={this.state.strokeWidth}
                               stroke={this.state.edgeLineColor}/>
                   })
                 }
